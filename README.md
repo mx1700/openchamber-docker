@@ -91,11 +91,19 @@ ARM 构建会走 QEMU，时间会更长。
 
 ## 4. 设置 GHCR 包可见性
 
-第一次 Actions 成功后，打开：
+第一次 Actions 成功后，打开包设置页：
 
 ```text
-GitHub 个人主页 → Packages → openchamber
+https://github.com/users/mx1700/packages/container/openchamber/settings
 ```
+
+然后：
+
+```text
+Danger Zone → Change visibility → Public
+```
+
+GitHub 的 REST API 不支持修改容器包可见性，只能在网页上操作，这是平台限制。
 
 如果服务器不想登录 GHCR，把包设为 **Public**。
 
