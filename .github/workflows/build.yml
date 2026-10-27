@@ -3,6 +3,13 @@ name: Build and publish OpenChamber image
 on:
   push:
     branches: [main, master]
+    paths-ignore:
+      - "README.md"
+      - ".env.example"
+      - "docker-compose.yml"
+      - "deploy/**"
+      - "scripts/**"
+      - ".gitignore"
   schedule:
     # 18:17 UTC = 02:17 Asia/Shanghai. Change if you prefer another window.
     - cron: "17 18 * * *"

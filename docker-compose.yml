@@ -1,6 +1,6 @@
 services:
   openchamber:
-    image: ${OPENCHAMBER_IMAGE:-ghcr.io/your-github-user/openchamber:latest}
+    image: ${OPENCHAMBER_IMAGE:-ghcr.io/mx1700/openchamber:latest}
     container_name: openchamber
     restart: unless-stopped
     init: true

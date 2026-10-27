@@ -38,7 +38,7 @@ cd /f/openchamber-docker
 git init -b main
 git add .
 git commit -m "Initial OpenChamber Docker deployment"
-git remote add origin git@github.com:YOUR_GITHUB_USER/openchamber-docker.git
+git remote add origin git@github.com:mx1700/openchamber-docker.git
 git push -u origin main
 ```
 
@@ -102,7 +102,7 @@ GitHub 个人主页 → Packages → openchamber
 如果保持 Private，服务器需要登录：
 
 ```bash
-echo "$GHCR_TOKEN" | docker login ghcr.io -u YOUR_GITHUB_USER --password-stdin
+echo "$GHCR_TOKEN" | docker login ghcr.io -u mx1700 --password-stdin
 ```
 
 `GHCR_TOKEN` 使用 Classic PAT，至少勾选：
@@ -114,7 +114,7 @@ read:packages
 注意：自动更新服务以 root 运行，所以如果包是 Private，需要让 root 也能读到 Docker 登录凭据：
 
 ```bash
-sudo docker login ghcr.io -u YOUR_GITHUB_USER
+sudo docker login ghcr.io -u mx1700
 ```
 
 或者直接把包设为 Public，最省事。
@@ -126,7 +126,7 @@ sudo docker login ghcr.io -u YOUR_GITHUB_USER
 ```bash
 sudo mkdir -p /opt/openchamber
 sudo chown "$USER":"$USER" /opt/openchamber
-git clone https://github.com/YOUR_GITHUB_USER/openchamber-docker.git /opt/openchamber
+git clone https://github.com/mx1700/openchamber-docker.git /opt/openchamber
 cd /opt/openchamber
 ```
 
@@ -141,7 +141,7 @@ nano .env
 至少要改：
 
 ```env
-OPENCHAMBER_IMAGE=ghcr.io/YOUR_GITHUB_USER/openchamber:latest
+OPENCHAMBER_IMAGE=ghcr.io/mx1700/openchamber:latest
 
 OPENCHAMBER_UI_PASSWORD=一段足够长的随机密码
 OPENCODE_JWT_SECRET=openssl rand -hex 32 的输出
@@ -253,14 +253,14 @@ docker compose up -d openchamber
 workflow 会给每个版本打 tag，例如：
 
 ```text
-ghcr.io/YOUR_GITHUB_USER/openchamber:2.5.2
-ghcr.io/YOUR_GITHUB_USER/openchamber:sha-abc1234
+ghcr.io/mx1700/openchamber:2.5.2
+ghcr.io/mx1700/openchamber:sha-abc1234
 ```
 
 回滚时改 `.env`：
 
 ```env
-OPENCHAMBER_IMAGE=ghcr.io/YOUR_GITHUB_USER/openchamber:2.5.2
+OPENCHAMBER_IMAGE=ghcr.io/mx1700/openchamber:2.5.2
 ```
 
 然后：
