@@ -1,0 +1,12 @@
+[Unit]
+Description=Daily OpenChamber image update
+
+[Timer]
+# GitHub Actions builds at 18:17 UTC (02:17 Asia/Shanghai).
+# This pulls after that build. Adjust to your server timezone.
+OnCalendar=*-*-* 04:30:00
+Persistent=true
+RandomizedDelaySec=15m
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,56 @@
+services:
+  openchamber:
+    image: ${OPENCHAMBER_IMAGE:-ghcr.io/your-github-user/openchamber:latest}
+    container_name: openchamber
+    restart: unless-stopped
+    init: true
+
+    # LAN access. Remove this block if you only want Cloudflare Tunnel access.
+    ports:
+      - "${LAN_BIND:-0.0.0.0}:${LAN_PORT:-8080}:3000"
+
+    environment:
+      OPENCHAMBER_UI_PASSWORD: ${OPENCHAMBER_UI_PASSWORD:?set in .env}
+      OPENCODE_JWT_SECRET: ${OPENCODE_JWT_SECRET:?set in .env}
+      OPENCHAMBER_LAN_URL: ${OPENCHAMBER_LAN_URL:-http://localhost:8080}
+      OPENCHAMBER_SKIP_API_COMPRESSION: "1"
+      TZ: ${TZ:-Asia/Shanghai}
+
+    volumes:
+      - ./data/openchamber:/home/openchamber/.config/openchamber
+      - ./data/opencode/share:/home/openchamber/.local/share/opencode
+      - ./data/opencode/state:/home/openchamber/.local/state/opencode
+      - ./data/opencode/config:/home/openchamber/.config/opencode
+      - ./data/ssh:/home/openchamber/.ssh
+      - ./workspaces:/home/openchamber/workspaces
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
+
+    networks: [ocnet]
+
+  cloudflared:
+    image: cloudflare/cloudflared:2026.3.0
+    container_name: openchamber-cloudflared
+    restart: unless-stopped
+    command:
+      - tunnel
+      - --no-autoupdate
+      - run
+      - --token
+      - ${CLOUDFLARE_TUNNEL_TOKEN:?set in .env}
+    depends_on:
+      openchamber:
+        condition: service_healthy
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks: [ocnet]
+
+networks:
+  ocnet:
